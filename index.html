@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Interpret HRESULT</title>
+</head>
+<body>
+  <form onsubmit="interpret(); return false;">
+    HRESULT: <input id="value" type="text"/>
+    <button type="submit">Interpret</button>
+  </form>
+  <pre id="result"></pre>
+  <script>
+    function interpret() {
+      var text = "";
+      var hresult = parseInt(document.getElementById('value').value);
+      if (isNaN(hresult)) return;
+      var failed = hresult & 0x800000000 != 0;
+      var facility = (hresult & 0x7FF0000) >> 0x10;
+      var code = hresult & 0xFFFF;
+      text += (failed ? "Failure" : "Success") + " HRESULT";
+      text += "\nFacility: " + facility;
+      text += "\nCode:     " + code;
+      document.getElementById("result").innerText = text;
+    }
+  </script>
+</body>
+</html>
